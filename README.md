@@ -31,17 +31,17 @@ A forest of knowledge.
 1.List<Edge> = { 40년 우정, 구국봉사단, 초기비서실장, 최순실 }
 1.description = 대통령
 
-3.2.kind = person
+2.kind = person
 2.name = 최순실
 2.List<Edge> = {40년 우정, 구국봉사단, 비선모임, 정유라 }
 2.description = 샤먼
 
-4.3.kind = group
+3.kind = group
 3.description = 대한민국 청와대
 3.name = 청와대
 3.List<Edge> = {박근혜, 최순실, 이명박}
 
-5.4.kind = relation
+4.kind = relation
 4.name = 40년 우정
 4.List<Edge> = {박근혜, 최순실}
 ```
