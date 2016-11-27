@@ -9,7 +9,7 @@ A forest of knowledge.
 ---
 
 ## 청사진
-<img src="https://cdn.namuwikiusercontent.com/a1/a19d73d0c33054c250c82f1d66008da641ca0ac2e006b278aae746e41ecebcf3.png?e=1481273733&k=IZ4LB_AhKfmqMLvFDg05hg">
+<img src="https://raw.githubusercontent.com/Pangyo/jirim/master/etc/jirim_blueprint.png">
 
 ## 데이터 모델
 1. Keyword
