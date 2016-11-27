@@ -2,11 +2,9 @@
 A forest of knowledge.
 
 ## 기능
----
 1. 실시간 네이버 검색어 10개 보여주기
 2. 키워드 "A" 입력 -> 연관 검색어 "A'", "A''", "A_" 보여주기.
 3. 키워드 "A" 입력 ->  "A"의 연관 검색어 "A'", "A''", "A_"등을 다시 검색
----
 
 ## 청사진
 <img src="https://raw.githubusercontent.com/Pangyo/jirim/master/etc/jirim_blueprint.png">
