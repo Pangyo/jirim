@@ -40,3 +40,14 @@ def hello():
 	
 bottle.debug(True)
 run(host='localhost', port=8080)
+
+# <html>
+#{{infos}}
+#         <ul>
+#          % for info in infos:
+#             <li>
+#             </li>       
+#            <br> 
+#          % end
+#         </ul>
+#</html>
