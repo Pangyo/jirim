@@ -1,6 +1,6 @@
 # <font color="green"> <b> Jirim </b> </font>
 A forest of knowledge.
-
+ 
 ## 기능
 1. 실시간 네이버 검색어 10개 보여주기
 2. 키워드 "A" 입력 -> 연관 검색어 "A'", "A''", "A_" 보여주기.
