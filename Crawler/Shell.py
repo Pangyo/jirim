@@ -1,6 +1,8 @@
 
 from bottle import route, run, template
+
 from Helper.LogHelper import LOG
+from Helper.XmlHelper import XML
 
 from Common.CommonClass.BaseClass import BaseClass
 
@@ -36,23 +38,28 @@ class ShellMain(BaseClass):
     def GetRelationList(self):
         tempList = self._relationList.GetRelationList("https://search.naver.com/search.naver?where=nexearch&query=%EA%B9%80%EC%9C%A0%EC%A0%95&sm=top_lve&ie=utf8")
         
-        _jsRelationObject = _jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
-        print(_jsRelationObject)
-        
-        return _jsRelationObject
+        #_jsRelationObject = _jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
+        #print(_jsRelationObject)
+        #return _jsRelationObject
         
     def GetRankList(self):
+        
+        LOG.DEBUG("Init. GetRankList")
+        
         tempList = self._rankList.GetRealTimeRankList("http://www.naver.com")
         tempList.pop()
-        
 
-        for node in tempList:
-            print(node.title)
+        LOG.DEBUG("Get RankList")
         
-        _jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
-        print(_jsRankObject)
+        XMLCheck = XML.RanklistToXML(tempList);
+
+        #for node in tempList:
+        #    print(node.title)
         
-        return _jsRankObject
+        #_jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
+        #print(_jsRankObject)
+        
+        #return _jsRankObject
             
 if __name__ == '__main__':
 
