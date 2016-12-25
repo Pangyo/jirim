@@ -11,7 +11,16 @@ class RankListService(BaseClass):
 
     def __init__(self):
         self.ListRanks = []
-    
+
+    def MakeRankModel(self, index, title, link):
+        rankModel = RankListModel()
+        
+        rankModel.setIndex(index)
+        rankModel.setTitle(title)        
+        rankModel.setLink(link)
+        
+        return rankModel
+
     def GetTextHTMLPARSER(self, url):
         source_code = requests.get(url)
         plain_text = source_code.text
@@ -50,9 +59,8 @@ class RankListService(BaseClass):
             rankTitle = str(liTitle)
             
             rankModel.setIndex(index)
+            rankModel.setTitle(rankTitle)            
             rankModel.setLink(rankLink)
-            rankModel.setTitle(rankTitle)
-            rankModel.setInFrom("naver")
             
             self.ListRanks.append(rankModel)
             

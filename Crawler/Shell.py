@@ -4,6 +4,7 @@ from bottle import route, run, template
 from Helper.LogHelper import LOG
 from Helper.XmlHelper import XML
 
+from Common.Global import Global
 from Common.CommonClass.BaseClass import BaseClass
 
 from Product.RankListManager.Service.rankListService import RankListService
@@ -27,7 +28,7 @@ class ShellMain(BaseClass):
         
     def Pre_Initialize(self):
         LOG.DEBUG("Pre-initialize.")
-        
+       
         #self._president = PresidentService()
         self._rankList = RankListService()
         #self._relat ionList = RelationService() 
@@ -46,16 +47,16 @@ class ShellMain(BaseClass):
         
         LOG.DEBUG("Init. GetRankList")
         
-        tempList = self._rankList.GetRealTimeRankList("http://www.naver.com")
-        tempList.pop()
+        #tempList = self._rankList.GetRealTimeRankList("http://www.naver.com")
+        #tempList.pop()
 
         LOG.DEBUG("Get RankList")
         
-        XMLCheck = XML.RanklistToXML(tempList);
-
+        #XMLCheck = XML.RanklistToXML(tempList)
+        #tempList = XML.XMLToRanklist()
         #for node in tempList:
         #    print(node.title)
-        
+
         #_jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
         #print(_jsRankObject)
         

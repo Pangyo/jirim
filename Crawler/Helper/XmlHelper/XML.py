@@ -1,11 +1,8 @@
 import time
 from Helper.LogHelper import LOG
-from xml.etree.ElementTree import ElementTree, Element, SubElement, dump
-
-def GetCurrentTime():
-    now = time.localtime()
-
-    return "%04d_%02d_%02d_%02d_%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min)
+from Common.Global import Global
+from xml.etree.ElementTree import ElementTree, Element, SubElement, dump, parse
+from Product.RankListManager.Service.rankListService import RankListService
 
 # Convert RankList to XML and save xml format
 def RanklistToXML(rList):
@@ -28,8 +25,8 @@ def RanklistToXML(rList):
         for node in rList:
             rank = Element("Rank")
             SubElement(rank, "Index").text = str(node.index)
-            SubElement(rank, "Title").text = node.title
-            SubElement(rank, "Link" ).text = node.link
+            SubElement(rank, "Title").text = str(node.title)
+            SubElement(rank, "Link" ).text = str(node.link)
             
             rankParams.append(rank);
         
@@ -39,6 +36,8 @@ def RanklistToXML(rList):
         indent(root)
         # save xml
         ElementTree(root).write(fileName, encoding="utf-8", xml_declaration=True)
+        # save xml name
+        Global.SetXMLFileName(fileName)
 
     except ValueError as e:
        LOG.FATAL("Fail to RankList XML : " + e);
@@ -48,6 +47,39 @@ def RanklistToXML(rList):
        LOG.DEBUG("Success. RankList to XML") 
        return True      
         
+# Convert XML to RankList and return list
+def XMLToRanklist():
+
+    _rankList = []
+    _rankListService = RankListService()
+   
+    fileName = Global.GetXMLFileName()
+    #fileName = "2016_12_25_11_Rank.xml"
+    if fileName == None:
+        return 
+    
+    try:
+        tree = parse(fileName)
+        root = tree.getroot()
+        #rootIter = tree.getiterator()
+    
+        for rankParams in root.findall("RankParams"):
+            for rank in rankParams.findall("Rank"):
+                tempIndex = rank.findtext("Index")
+                tempTitle = rank.findtext("Title")
+                tempLink  = rank.findtext("Link")
+        
+                tempRankModel = _rankListService.MakeRankModel(tempIndex, tempTitle, tempLink)
+                _rankList.append(tempRankModel)
+
+    except ValueError as e:
+       LOG.FATAL("Fail to RankList parsing XML : " + e);
+
+    else:
+       LOG.DEBUG("Success. XML to RankList") 
+    
+    return _rankList
+
 # print in debug - xml format
 def indent(elem, level=0):
     i = "\n" + level*"  "
@@ -63,3 +95,10 @@ def indent(elem, level=0):
     else:
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
+
+def GetCurrentTime():
+    now = time.localtime()
+
+    return "%04d_%02d_%02d_%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour)
+    #return "%04d_%02d_%02d_%02d_%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min)
+
