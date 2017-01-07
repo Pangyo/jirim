@@ -4,6 +4,55 @@ from Common.Global import Global
 from xml.etree.ElementTree import ElementTree, Element, SubElement, dump, parse
 from Product.RankListManager.Service.rankListService import RankListService
 
+# Convert RelationList to XML and Save Xml format
+def RelationListToXML(rList, rKey, rVal):
+
+    if isinstance(rList, list) == False:
+        LOG.DEBUG("rList is not list.");
+        return False
+        
+    try:
+        if Global.GetXMLFileName() == None:
+            return False
+
+        fileName = Global.GetXMLFileName()
+
+        tree = parse(fileName)
+        if tree == None:
+            return False
+
+        root = tree.getroot()
+
+        # relationparams
+        relationParams = Element("RelationParams");
+        
+        for node in rList:
+            relation = Element("Relation")
+            relation.attrib["key"] = str(rKey)
+            relation.attrib["value"] = str(rVal)
+            
+            SubElement(relation, "Title").text = str(node.title)
+            SubElement(relation, "Link").text = str(node.link)
+
+            # relation param append
+            relationParams.append(relation)
+
+        root.append(relationParams)
+
+        # make xml format
+        indent(root)
+        # save xml
+        ElementTree(root).write(fileName, encoding="utf-8", xml_declaration=True)
+
+    except ValueError as e:
+       LOG.FATAL("Fail to RelationList XML : " + e);
+       return False
+
+    else:
+       LOG.DEBUG("Success. RelationList to XML. Key = " + str(rKey) + ", Value = " + str(rVal)) 
+       return True 
+
+
 # Convert RankList to XML and save xml format
 def RanklistToXML(rList):
         
@@ -28,6 +77,7 @@ def RanklistToXML(rList):
             SubElement(rank, "Title").text = str(node.title)
             SubElement(rank, "Link" ).text = str(node.link)
             
+            LOG.DEBUG("RankList title = " + str(node.title)) 
             rankParams.append(rank);
         
         root.append(rankParams)
@@ -38,7 +88,7 @@ def RanklistToXML(rList):
         ElementTree(root).write(fileName, encoding="utf-8", xml_declaration=True)
         # save xml name
         Global.SetXMLFileName(fileName)
-
+        
     except ValueError as e:
        LOG.FATAL("Fail to RankList XML : " + e);
        return False
@@ -62,7 +112,7 @@ def XMLToRanklist():
         tree = parse(fileName)
         root = tree.getroot()
         #rootIter = tree.getiterator()
-    
+   
         for rankParams in root.findall("RankParams"):
             for rank in rankParams.findall("Rank"):
                 tempIndex = rank.findtext("Index")

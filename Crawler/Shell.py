@@ -20,54 +20,67 @@ def index():
 class ShellMain(BaseClass):
     
     def __init__(self):
-        self._rankList = None
-        self._relationList = None
+        self._rankListService = None
+        self._relationListService = None
         
+        # after json , now not use
         self._jsRankObject = None    
         self._jsRelationObject = None
         
     def Pre_Initialize(self):
         LOG.DEBUG("Pre-initialize.")
        
-        #self._president = PresidentService()
-        self._rankList = RankListService()
-        #self._relat ionList = RelationService() 
+        self._rankListService = RankListService()
+        self._relationListService = RelationService() 
      
     def Startup(self):
         self.Pre_Initialize()
         
-    def GetRelationList(self):
-        tempList = self._relationList.GetRelationList("https://search.naver.com/search.naver?where=nexearch&query=%EA%B9%80%EC%9C%A0%EC%A0%95&sm=top_lve&ie=utf8")
-        
-        #_jsRelationObject = _jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
-        #print(_jsRelationObject)
-        #return _jsRelationObject
+    def GetRelationList(self, rList):
+        LOG.DEBUG("GetRelationList[Initilize]")
+
+        for node in rList:
+            tempList = self._relationListService.GetRelationList(node.link)
+            LOG.DEBUG("GetRelationList[List Complete]")
+
+            XML.RelationListToXML(tempList, node.index, node.title)
+            LOG.DEBUG("GetRelationList[SaveXML]")   
+
         
     def GetRankList(self):
+        LOG.DEBUG("GetRankList[Initilize]")
         
-        LOG.DEBUG("Init. GetRankList")
+        tempList = self._rankListService.GetRealTimeRankList("http://www.naver.com")
+        tempList.pop()
+        LOG.DEBUG("GetRankList[List Complete]")
         
-        #tempList = self._rankList.GetRealTimeRankList("http://www.naver.com")
-        #tempList.pop()
+        XMLCheck = XML.RanklistToXML(tempList)
+        LOG.DEBUG("GetRankList[SaveXML]")
 
-        LOG.DEBUG("Get RankList")
-        
-        #XMLCheck = XML.RanklistToXML(tempList)
-        #tempList = XML.XMLToRanklist()
-        #for node in tempList:
-        #    print(node.title)
-
-        #_jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
-        #print(_jsRankObject)
-        
-        #return _jsRankObject
+        if XMLCheck == True:
+            return tempList
+        else:
+            return None
             
 if __name__ == '__main__':
 
     sm = ShellMain()
     sm.Startup()
-    
-    #sm.GetRelationList()
-    sm.GetRankList()
+   
+    tempList = sm.GetRankList()
+    if tempList != None:
+        sm.GetRelationList(tempList)
+ 
+
     #run(host='111.111.111.2', port=8085)
     
+
+
+        #_jsRelationObject = _jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
+        #print(_jsRelationObject)
+        #return _jsRelationObject
+
+        #_jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
+        #print(_jsRankObject)
+        
+        #return _jsRankObject
