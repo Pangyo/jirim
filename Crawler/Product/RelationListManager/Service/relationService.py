@@ -28,7 +28,12 @@ class RelationService(BaseClass):
         
         soup = self.GetTextHTMLPARSER(item_url)
         
-        for li in soup.find('dd', {'class':'lst_relate'}).findAll('li'):
+        # lst_relate None case, it is not exist relation list so, go to the next ranklist
+        lst_relate = soup.find('dd', {'class':'lst_relate'})
+        if lst_relate == None:
+            return self.RelationList
+
+        for li in lst_relate.findAll('li'):
             relationM = RelationtModel()
             li_Text = li.find('a')
             

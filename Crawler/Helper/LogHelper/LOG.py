@@ -22,7 +22,6 @@ streamHandler.setFormatter(fomatter)
 logger.addHandler(fileHandler)
 logger.addHandler(streamHandler)
 
-
 def DEBUG(msg):
     logger.setLevel(logging.DEBUG)
     logger.debug(msg)

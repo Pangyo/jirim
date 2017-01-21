@@ -1,6 +1,4 @@
 
-from bottle import route, run, template
-
 from Helper.LogHelper import LOG
 from Helper.XmlHelper import XML
 
@@ -10,16 +8,10 @@ from Common.CommonClass.BaseClass import BaseClass
 from Product.RankListManager.Service.rankListService import RankListService
 from Product.RelationListManager.Service.relationService import RelationService
 
-import json
-
-@route('/keywords')
-def index():
-    return sm.Startup()
-
-
 class ShellMain(BaseClass):
     
     def __init__(self):
+        
         self._rankListService = None
         self._relationListService = None
         
@@ -45,7 +37,7 @@ class ShellMain(BaseClass):
 
             XML.RelationListToXML(tempList, node.index, node.title)
             LOG.DEBUG("GetRelationList[SaveXML]")   
-
+        
         
     def GetRankList(self):
         LOG.DEBUG("GetRankList[Initilize]")
@@ -66,16 +58,13 @@ if __name__ == '__main__':
 
     sm = ShellMain()
     sm.Startup()
-   
+
     tempList = sm.GetRankList()
     if tempList != None:
         sm.GetRelationList(tempList)
  
 
     #run(host='111.111.111.2', port=8085)
-    
-
-
         #_jsRelationObject = _jsRankObject = json.dumps(tempList, default=lambda o: o.__dict__, indent=4)
         #print(_jsRelationObject)
         #return _jsRelationObject
