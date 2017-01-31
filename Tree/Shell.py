@@ -1,14 +1,16 @@
+#Tree Shell.py
 
 #from bottle import route, run, template
 
 from Helper.LogHelper import LOG
-#from Helper.XmlHelper import XML
+from Helper.XmlHelper import XML
 
 from Common.CommonClass.BaseClass import BaseClass
+from Product.ListMaker.Service import ListMakeService
+from Product.ListMaker.Model import ListModel
 
 import urllib.request
 from bs4 import BeautifulSoup
-#import json
 
 
 def index():
@@ -38,8 +40,8 @@ if __name__ == '__main__':
     sm = ShellMain()
     sm.Startup()
     sm.httprequesets()
-
-
+    #XML.ReadXml()
+    ListMakeService.XmlToList()
 
 
     '''
@@ -50,7 +52,8 @@ if __name__ == '__main__':
     if tempList != None:
         sm.GetRelationList(tempList)
  
-'''
+    '''
+
     #run(host='111.111.111.2', port=8085)
     
 
