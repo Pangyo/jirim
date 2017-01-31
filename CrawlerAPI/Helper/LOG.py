@@ -1,12 +1,6 @@
-'''
-Created on 2016. 5. 14.
-
-@author: yunjae
-'''
 
 import logging
 import logging.handlers
-
 
 # log instance
 logger = logging.getLogger('yunjaekim')
