@@ -91,3 +91,7 @@ ENV/
 # etc
 nohup.out
 web.log
+
+Tree/archi.md
+
+*.swp

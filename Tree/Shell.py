@@ -8,6 +8,8 @@ from Helper.XmlHelper import XML
 from Common.CommonClass.BaseClass import BaseClass
 from Product.ListMaker.Service import ListMakeService
 from Product.ListMaker.Model import ListModel
+from Product.TreeMaker.Model import TreeModel
+from Product.TreeMaker.Service import TreeMakeService
 
 import urllib.request
 from bs4 import BeautifulSoup
@@ -41,8 +43,7 @@ if __name__ == '__main__':
     sm.Startup()
     sm.httprequesets()
     #XML.ReadXml()
-    ListMakeService.XmlToList()
-
+    TreeMakeService.list_to_tree(ListMakeService.XmlToList())
 
     '''
     sm = ShellMain()

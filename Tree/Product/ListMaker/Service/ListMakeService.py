@@ -1,6 +1,5 @@
 from Helper.LogHelper import LOG
 from Helper.XmlHelper import XML
-from Product.ListMaker.Service import ListMakeService
 from Product.ListMaker.Model import ListModel
 
 #move to XML
@@ -24,11 +23,13 @@ def XmlToList():
         print("======================================")
         print(i)
         num = 0
+        '''
         for j in keywordlist[i]:
             num = num + 1 
             print(" " + str(num) + " " + str(j.name))
+            '''
         print("======================================")
-    
+    return keywordlist
 
 def makeList(keywordlist_index, key, basic_keyword):
     keywordlist_index[key].append(basic_keyword)
