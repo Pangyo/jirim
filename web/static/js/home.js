@@ -9,32 +9,26 @@ var container;
 
 // Called when the Visualization API is loaded.
 function draw(jsonObj) {
-    console.log(jsonObj);
+    // console.log(jsonObj);
     // create people.
     // value corresponds with the age of the person
     var DIR = '/static/img/';
 
     var nodeArr = [];
 
-    var nodes = Object.keys(jsonObj);
+    var nodes = jsonObj['result'];
+
     for (i = 0; i < nodes.length; i++) {
-        console.log();
-
-        nodeObj = jsonObj[nodes[i]];
-        console.log(nodeObj);
-
-        nodeName = nodes[i];
-
+        node = nodes[i];
         // nodeArr.push({id:i+1, shape: 'circularImage', image: DIR + 'bluehouse.jpg', label:nodeName } );
         nodeArr.push({
             id: i + 1,
-            label: nodeName
+            label: decodeURIComponent(node.title)
         });
     }
 
-    console.log(jsonObj['exid']);
     /*
-    nodes = [{id: 1,  shape: 'circularImage', image: DIR + 'bluehouse.jpg', label:"Ã»¿Í´ë"},{id: 2,  shape: 'circularImage', image: DIR + 'sunsiri.jpg', label:"ÃÖ¼ø½Ç"},{id: 3,  shape: 'circularImage', image: DIR + 'geunhye.jpg', brokenImage: DIR + 'missingBrokenImage.png', label:"¹Ú±ÙÇý"},
+    nodes = [{id: 1,  shape: 'circularImage', image: DIR + 'bluehouse.jpg', label:"Ã»ï¿½Í´ï¿½"},{id: 2,  shape: 'circularImage', image: DIR + 'sunsiri.jpg', label:"ï¿½Ö¼ï¿½ï¿½ï¿½"},{id: 3,  shape: 'circularImage', image: DIR + 'geunhye.jpg', brokenImage: DIR + 'missingBrokenImage.png', label:"ï¿½Ú±ï¿½ï¿½ï¿½"},
     ];
      */
     // create connections between people
@@ -87,5 +81,17 @@ function updateNetworkHeight() {
 
 function drawLnb() {
     var lnb = document.getElementById('lnb');
+}
 
+function reload() {
+  $.ajax("http://naver.com", {
+      success: function(data) {
+        console.log(data);
+         $('#main').html($(data).find('#main *'));
+         $('#notification-bar').text('The page has been successfully loaded');
+      },
+      error: function() {
+         $('#notification-bar').text('An error occurred');
+      }
+   });
 }

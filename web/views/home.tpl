@@ -17,21 +17,18 @@
             }
             </style>
 
-        <link href="/static/css/vis.min.css" rel="stylesheet" type="text/css">
-        
-        <script type="text/javascript" src="/static/js/vis.js"/>
-        
-        <script type="text/javascript" src="/static/js/home.js"/>
-
+            <link href="/static/css/vis.min.css" rel="stylesheet" type="text/css">
+            <script type="text/javascript" src="/static/js/jquery-3.1.1.min.js"> </script>
+            <script type="text/javascript" src="/static/js/vis.min.js"> </script>
+            <script type="text/javascript" src="/static/js/home.js"> </script>
     </head>
 
-    <body onload="draw({{graph}}); drawLnb();" onresize="updateNetworkHeight()">
-    {{graph}}
-
+    <body onload="draw({{graph}});" onresize="updateNetworkHeight()">
         <h3> keyword : {{keyword}} </h3>
+        <a href="#" onclick="reload();">검색어 리로드</a>
 
         <!-- Left Navigation Bar -->
-        <div id="lnb"> 
+        <div id="lnb">
 
         </div>
 
@@ -40,6 +37,3 @@
 
     </body>
 </html>
-
-
-    
