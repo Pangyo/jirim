@@ -54,7 +54,8 @@ A forest of knowledge.
     * which python, which pip3를 했을때 {env name}밑에 있는 bin의 python 경로가 표시되면 정상적으로 활성화 된 것.
     * 활성화 되었으면 python 명령어는 기본적으로 python 3.6.0버전이다
   * deactivate로 비활성화
-  
+  * 모든 python관련 명령어를 실행할때에는 virtualenv가 활성화된 상태에서 해야 한다. (e.g. Shell.py실행, pip3로 패키지 설치 등등)
+
 #### 프로젝트에 필요한 python package를 설치
   * requirements.txt에 dependency들이 작성되어 있음.
   * pip3 install -r requirements.txt 명령어로 한번에 설치.
