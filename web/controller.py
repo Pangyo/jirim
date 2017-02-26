@@ -12,14 +12,19 @@ import sys
 # Static Routes
 @get("/static/css/<filepath:re:.*\.css>")
 def css(filepath):
+    debug(filepath)
     response = bottle.static_file(filepath, root="static/css")
     response.set_header("Cache-Control", "public, max-age=604800")
 
     return response
 
-# @get("/static/font/<filepath:re:.*\.(eot|otf|svg|ttf|woff|woff2?)>")
-# def font(filepath):
-#     return static_file(filepath, root="static/font")
+@get("/static/fonts/<filepath:re:.*\.(eot|otf|svg|ttf|woff|woff2?)>")
+def font(filepath):
+    return static_file(filepath, root="static/fonts")
+
+@get("/static/css/fonts/<filepath:re:.*\.(eot|otf|svg|ttf|woff|woff2?)>")
+def font(filepath):
+    return static_file(filepath, root="static/fonts")
 
 @get("/static/img/<filepath:re:.*\.(jpg|png|gif|ico|svg)>")
 def img(filepath):
@@ -49,12 +54,14 @@ def hello():
     # id title from
     response = urllib2.urlopen('http://111.111.111.2:8085/keywords')
     json_str = response.read()
-    print "from servers.."
-    print json_str
 
     json_obj = json.loads(json_str);
 
     return template('views/home', infos=json_obj)
+
+@get('/sample')
+def sample():
+    return template('views/sample')
 
 @get('/graph')
 def hello():
@@ -128,7 +135,7 @@ def hello():
 }
 
 
-    debug(graphJson)
+#    debug(graphJson)
 
     return template('views/home', keyword=keyword, graph=graphJson)
 

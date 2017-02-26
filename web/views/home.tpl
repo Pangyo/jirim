@@ -9,15 +9,6 @@
             html, body {
               font: 10pt arial;
             }
-            .lnb {
-              position: absolute;
-              left:0px;
-              top:0px;
-              max-width: 200px;
-              width:200px;
-              display:inline;
-              background:#aabbcc;
-            }
 
             #container {
               position: absolute;
@@ -30,22 +21,95 @@
 
             <link href="/static/css/vis.min.css" rel="stylesheet" type="text/css">
 
+            <!-- Bootstrap Core CSS -->
+            <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+            <!-- Custom CSS -->
+            <link href="/static/css/sb-admin.css" rel="stylesheet">
+
+            <!-- Morris Charts CSS -->
+            <link href="/static/css/morris.css" rel="stylesheet">
+
+            <!-- Custom Fonts -->
+            <link href="/static/css/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+
             <script type="text/javascript" src="/static/js/jquery-3.1.1.min.js"> </script>
             <script type="text/javascript" src="/static/js/vis.min.js"> </script>
             <script type="text/javascript" src="/static/js/home.js"> </script>
     </head>
 
     <body onload="draw({{graph}});" onresize="updateNetworkHeight()">
-        <h3> keyword : {{keyword}} </h3>
-        <a href="#" onclick="reload();">검색어 리로드</a>
+        <div id="wrapper">
+          <!-- Navigation -->
+          <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="index.html">JIRIM</a>
+              </div>
+              <!-- Top Menu Items -->
+              <ul class="nav navbar-right top-nav">
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                          <li>
+                              <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                          </li>
+                          <li class="divider"></li>
+                          <li>
+                              <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+              <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+              <div class="collapse navbar-collapse navbar-ex1-collapse">
+                  <ul class="nav navbar-nav side-nav">
+                      <li class="active">
+                          <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                      </li>
+                  </ul>
+              </div>
+              <!-- /.navbar-collapse -->
+          </nav>
+          <div class="container-fluid">
 
-        <!-- Left Navigation Bar -->
-        <div id="lnb" clss="lnb">
+              <!-- Page Heading -->
+              <div class="row">
+                <h3> keyword : {{keyword}} </h3>
+                <a href="#" onclick="reload();">검색어 리로드</a>
+
+                <!-- Left Navigation Bar -->
+                <div id="lnb" clss="lnb">
+
+                </div>
+
+                <!-- Graph -->
+                <div id="container"/>
+              </div>
+          </div>
+          <!-- /.container-fluid -->
+
+      </div>
+      <!-- /#page-wrapper -->
 
         </div>
+ <!-- /#wrapper -->
 
-        <!-- Graph -->
-        <div id="container"/>
 
+        <!-- Bootstrap Core JavaScript -->
+        <script src="/static/js/bootstrap.min.js"></script>
     </body>
+
 </html>
