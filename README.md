@@ -10,7 +10,7 @@ A forest of knowledge.
 <img src="https://raw.githubusercontent.com/Pangyo/jirim/master/etc/jirim_blueprint.png">
 
 ## Simple Architecture
-<img src="https://github.com/Pangyo/jirim/blob/master/etc/jirim_arch.png?raw=true">
+<img src="https://github.com/Pangyo/jirim/blob/master/etc/jirim_arch2.png?raw=true">
 
 ## 데이터 모델
 1. Keyword - strng
