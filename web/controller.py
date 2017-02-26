@@ -136,6 +136,10 @@ def hello():
 def error404(error):
     return 'Nothing here, sorry'
 
+@bottle.error(500)
+def error404(error):
+    return 'Internal Error, sorry'
+
 def signal_handler(signal, frame):
     print('process down')
     sys.exit(0)

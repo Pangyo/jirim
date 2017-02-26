@@ -9,7 +9,18 @@
             html, body {
               font: 10pt arial;
             }
+            .lnb {
+              position: absolute;
+              left:0px;
+              top:0px;
+              max-width: 200px;
+              width:200px;
+              display:inline;
+              background:#aabbcc;
+            }
+
             #container {
+              position: absolute;
               width: 90vw;
               height: 80vh;
               border: 1px solid lightgray;
@@ -18,6 +29,7 @@
             </style>
 
             <link href="/static/css/vis.min.css" rel="stylesheet" type="text/css">
+
             <script type="text/javascript" src="/static/js/jquery-3.1.1.min.js"> </script>
             <script type="text/javascript" src="/static/js/vis.min.js"> </script>
             <script type="text/javascript" src="/static/js/home.js"> </script>
@@ -28,7 +40,7 @@
         <a href="#" onclick="reload();">검색어 리로드</a>
 
         <!-- Left Navigation Bar -->
-        <div id="lnb">
+        <div id="lnb" clss="lnb">
 
         </div>
 
