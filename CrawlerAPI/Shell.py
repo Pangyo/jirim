@@ -10,7 +10,7 @@ from Helper import FUNC
 RankListData = None
 RelationListData = None
 CrawlerDict = dict()
-#?
+
 @route('/v1/crawler/ranklist/<param>')
 def api_ranklistRange(param):
     rankList = Shell.GetRankList()    

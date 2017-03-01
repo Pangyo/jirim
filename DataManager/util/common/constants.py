@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+""" Author : Jae Eun Yoo """
+
+ACCESSIBLE_IP		= "0.0.0.0"
+ACCESSIBLE_PORT		= 9000
+ACCESSIBLE_ADDR		= (ACCESSIBLE_IP, ACCESSIBLE_PORT)
