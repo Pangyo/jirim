@@ -1,4 +1,5 @@
 import time
+
 from Helper.LogHelper import LOG
 from Common.Global import Global
 from xml.etree.ElementTree import ElementTree, Element, SubElement, dump, parse
@@ -12,10 +13,10 @@ def RelationListToXML(rList, rKey, rVal):
         return False
         
     try:
-        if Global.GetXMLFileName() == None:
+        if Global.GetXmlFilePath() == None:
             return False
 
-        fileName = Global.GetXMLFileName()
+        fileName = Global.GetXmlFilePath()
 
         tree = parse(fileName)
         if tree == None:
@@ -61,8 +62,9 @@ def RanklistToXML(rList):
         return False
 
     try:
+        path = Global.GetXmlFilePath() + "\\"
         currentTime = GetCurrentTime()
-        fileName = currentTime + "_Rank.xml"
+        fileName =  path + currentTime + "_Rank.xml"
 
         root = Element("Jirim")
     
@@ -87,7 +89,7 @@ def RanklistToXML(rList):
         # save xml
         ElementTree(root).write(fileName, encoding="utf-8", xml_declaration=True)
         # save xml name
-        Global.SetXMLFileName(fileName)
+        Global.SetXmlFilePath(fileName)
         
     except ValueError as e:
        LOG.FATAL("Fail to RankList XML : " + e);
