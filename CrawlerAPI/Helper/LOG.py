@@ -2,19 +2,29 @@
 import logging
 import logging.handlers
 
+from Helper.Global import Global
+
 # log instance
 logger = logging.getLogger('yunjaekim')
 fomatter = logging.Formatter('[%(levelname)s:%(lineno)s] %(asctime)s > %(message)s')
 
-# file name
-fileHandler = logging.FileHandler('./Operate.log')
-streamHandler = logging.StreamHandler()
+def Initialize():    
+    try:
+        path =  Global.GetLogFilePath()   
 
-# link
-fileHandler.setFormatter(fomatter)
-streamHandler.setFormatter(fomatter)
-logger.addHandler(fileHandler)
-logger.addHandler(streamHandler)
+        fileHandler = logging.FileHandler(path + "\CrawlerAPI.log")
+        streamHandler = logging.StreamHandler()
+
+        # link
+        fileHandler.setFormatter(fomatter)
+        streamHandler.setFormatter(fomatter)
+        logger.addHandler(fileHandler)
+        logger.addHandler(streamHandler)
+
+    except:
+        return False;
+    else:
+        return True;
 
 def DEBUG(msg):
     logger.setLevel(logging.DEBUG)

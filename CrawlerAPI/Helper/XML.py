@@ -1,7 +1,11 @@
 import time
+import os
+
 from Helper import LOG
 from Model import RankModel
 from Model import RelationModel
+
+from Helper.Global import Global
 
 from xml.etree.ElementTree import ElementTree, Element, SubElement, dump, parse
 
@@ -10,10 +14,12 @@ def XMLToRanklist():
 
     _rankList = []
    
-    fileName = None
-    #fileName = "2017_01_21_12_Rank.xml"
+    fileName = Global.GetXmlFileName()
     if fileName == None:
-        return 
+        return None
+
+    if os.path.exists(fileName) == False:
+        return None
     
     try:
         tree = parse(fileName)
@@ -45,11 +51,13 @@ def XMLToRanklist():
 def XMLToRelationlist(): 
     _relationList = []
    
-    fileName = None
-    #fileName = "2017_01_21_12_Rank.xml"
+    fileName = Global.GetXmlFileName()
     if fileName == None:
-        return 
-    
+        return None
+
+    if os.path.exists(fileName) == False:
+        return None
+
     try:
         tree = parse(fileName)
         root = tree.getroot()
