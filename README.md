@@ -25,6 +25,26 @@ A forest of knowledge.
 박근혜.list = [청와대, 최순실]
 
 ```
+## Server Directory구조
+===
+
+/home/jirim/project/
+
+    .
+    ├── scripts
+    │   ├── deploy.sh //배포 스크립트
+    │   ├── start.sh  //실행 스크립트
+    │   └── stop.sh  //정지 스크립트
+    │
+    ├── jirim      //application 소스
+    │   ├── ...
+    │   ├── ...
+    │    ...
+    ├── pid      // process의 pid
+    └── log      // log 파일
+
+===
+
 
 ## Dependencies
 * Web
