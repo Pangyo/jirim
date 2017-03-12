@@ -4,5 +4,5 @@
 HOST                ="121.190.41.167"
 PORT                =17017
 DATABASE_NAME       ="jirim"
-RAWDATA_COLLECTION  ="JirimRawData"
-ANALYSIS_COLLECTION ="JirimAnalyzedData"
+RANKING_COLLECTION  ="RankingKeyword"
+RELATION_COLLECTION ="RelationKeyword"

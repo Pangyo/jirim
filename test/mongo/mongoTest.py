@@ -17,7 +17,7 @@ class TestMongoConnection(unittest.TestCase):
         self.client, self.db = self.mongoDao.connect(mongoConfig.DATABASE_NAME)
 
     def test_insert(self):
-        rawDataCollection = self.mongoDao.getCollection(mongoConfig.RAWDATA_COLLECTION)
+        rawDataCollection = self.mongoDao.getCollection(mongoConfig.RANKING_COLLECTION)
         id = 1
         name = "Gwiyeong"
         firstName = "Jeong"
