@@ -5,7 +5,7 @@ import logging
 from logging import debug, info, error
 
 import json
-import urllib2
+import urllib.parse
 import signal
 import sys
 
@@ -151,12 +151,8 @@ def signal_handler(signal, frame):
     print('process down')
     sys.exit(0)
 
-
-def urlencode(s):
-    return urllib2.quote(s)
-
 def urldecode(s):
-    return urllib2.unquote(s).decode('utf8')
+    return urllib.parse.unquote(s)
 
 logging.basicConfig(filename='web.log',level=logging.DEBUG)
 
