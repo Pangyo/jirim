@@ -9,4 +9,4 @@ CONST_HTML_PARSER = "html.parser"
 
 
 # Naver
-
+CONST_NAVER = "http://www.naver.com"

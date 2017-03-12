@@ -1,3 +1,4 @@
+import shutil
 
 from Helper.LogHelper import LOG
 from Helper.XmlHelper import XML
@@ -21,8 +22,7 @@ class ShellMain(BaseClass):
         self._jsRelationObject = None
         
     def Pre_Initialize(self):
-        LOG.DEBUG("Pre-initialize.")
-    
+
         if INI.Initialize() == False:
             return False
         
@@ -32,47 +32,87 @@ class ShellMain(BaseClass):
         if INI.WriteINI() == False:
             return False
 
+        if LOG.Initialize() == False:
+            return False
+
+        LOG.DEBUG("Pre-initialize.")
+
+
     def Post_Initialize(self):
         LOG.DEBUG("Post-initialize.")
        
         self._rankListService = RankListService()
         self._relationListService = RelationService() 
 
+
     def Startup(self):
         self.Pre_Initialize()
-        
+
+        self.Post_Initialize()
+
     def GetRelationList(self, rList):
-        LOG.DEBUG("GetRelationList[Initilize]")
+        LOG.DEBUG("Initilize - Relation")
 
         for node in rList:
             tempList = self._relationListService.GetRelationList(node.link)
-            LOG.DEBUG("GetRelationList[List Complete]")
+            LOG.DEBUG("Get List Data - Relation")
 
-            XML.RelationListToXML(tempList, node.index, node.title)
-            LOG.DEBUG("GetRelationList[SaveXML]")   
-        
-        
-    def GetRankList(self):
-        LOG.DEBUG("GetRankList[Initilize]")
-        
-        tempList = self._rankListService.GetRealTimeRankList("http://www.naver.com")
-        tempList.pop()
-        LOG.DEBUG("GetRankList[List Complete]")
-        
-        XMLCheck = XML.RanklistToXML(tempList)
-        LOG.DEBUG("GetRankList[SaveXML]")
+            # Rank List delete from INI RelationListCount
+            listCount = Global.GetRelationCount()
+            while(True):
+                if(len(tempList) <= int(listCount)):
+                    break;
+                else:
+                    tempList.pop()
 
-        if XMLCheck == True:
+            if XML.RelationListToXML(tempList, node.index, node.title) == True:
+                LOG.DEBUG("Save Xml - Relation")
+            else:
+                LOG.FATAL("Fail Xml - Relation")
+                return False
+
+        return True
+        
+    def GetRankList(self, url):
+        LOG.DEBUG("Initilize - Rank")
+        
+        tempList = self._rankListService.GetRealTimeRankList(url)
+        LOG.DEBUG("Get List Data - Rank")
+        
+        # Rank List delete from INI RankListCount
+        listCount = Global.GetRankListCount()
+        
+        while(True):
+            if(len(tempList) <= int(listCount)):
+                break;
+            else:
+               tempList.pop()
+       
+        if XML.RanklistToXML(tempList) == True:
+            LOG.DEBUG("Save Xml - Rank")
             return tempList
         else:
+            LOG.FATAL("Fail Xml - Rank")
             return None
-            
+
+
 if __name__ == '__main__':
 
     sm = ShellMain()
     sm.Startup()
 
-    #tempList = sm.GetRankList()
-    #if tempList != None:
-    #    sm.GetRelationList(tempList)
- 
+    result = None
+    tempList = sm.GetRankList("http://www.naver.com")
+    
+    if tempList != None:
+        reuslt = sm.GetRelationList(tempList)
+
+    try:
+        if reuslt == True:
+            shutil.copyfile(Global.GetXmlFilePath(), Global.GetXmlFileName())
+
+    except IOError as e:
+        LOG.FATAL("Crawler File Copy Fail" + e)
+    else:
+        LOG.DEBUG("Crawler File Copy Success")
+    

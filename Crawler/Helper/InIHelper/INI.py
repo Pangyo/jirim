@@ -4,7 +4,7 @@ from configparser import SafeConfigParser
 from Common.Global import Global
 
 Crawler_Home = os.getcwd()
-Crawler_SYS = Crawler_Home + "\CrawlerSystem"
+Crawler_SYS = Crawler_Home + "\System"
 
 Crawler_LOG = Crawler_SYS + "\LOG"
 Crawler_XML = Crawler_SYS + "\XML"
