@@ -1,27 +1,31 @@
 console.log("home.js is imported.");
-
-var DIR = 'img/soft-scraps-icons/';
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 var nodes = null;
 var edges = null;
 var network = null;
+
+
 var container;
 
+
 // Called when the Visualization API is loaded.
-function draw(jsonObj) {
+function draw(node) {
     // console.log(jsonObj);
     var DIR = '/static/img/';
 
-    var nodeArr = [];
+    var relationArr = new vis.DataSet();
+    var relations = node['relations'];
 
-    var nodes = jsonObj;
-
-    for (i = 0; i < nodes.length; i++) {
-        node = nodes[i];
+    console.log(relationArr);
+    for (i = 0; i < relations.length; i++) {
+        r = relations[i];
         // nodeArr.push({id:i+1, shape: 'circularImage', image: DIR + 'bluehouse.jpg', label:nodeName } );
-        nodeArr.push({
+        relationArr.add({
             id: i + 1,
-            label: decodeURIComponent(node.title)
+            label: decodeURIComponent(r.title),
+            link: r.link,
+            relations: r.relations
         });
     }
 
@@ -45,7 +49,7 @@ function draw(jsonObj) {
     // create a network
     container = document.getElementById('container');
     var data = {
-        nodes: nodeArr,
+        nodes: relationArr,
         edges: edges
     };
     var options = {
@@ -65,14 +69,82 @@ function draw(jsonObj) {
         edges: {
             color: 'lightgray'
         },
-        interaction:{
-          hover:true
-        }
+        interaction: {
+          hover: true
+        },
     };
-    var options = {interaction:{hover:true}};
+
     network = new vis.Network(container, data, options);
-    event();
+    registerEvent();
     console.log(network);
+}
+
+function registerEvent() {
+  network.on("click", function (params) {
+      params.event = "[original event]";
+      // console.log('<h2>Click event:</h2>' + JSON.stringify(params, null, 4));
+  });
+  network.on("doubleClick", function (params) {
+      params.event = "[original event]";
+      console.log('<h2>doubleClick event:</h2>' + JSON.stringify(params));
+  });
+  network.on("oncontext", function (params) {
+      params.event = "[original event]";
+      console.log('<h2>oncontext (right click) event:</h2>' + JSON.stringify(params));
+      var nodeNum = this.getNodeAt(params.pointer.DOM);
+      var node = network.body.data.nodes.get(nodeNum);
+      console.log(node);
+      draw(node);
+  });
+  network.on("dragStart", function (params) {
+      params.event = "[original event]";
+      console.log('<h2>dragStart event:</h2>' + JSON.stringify(params));
+      // alert('<h2>dragStart event:</h2>' + JSON.stringify(params, null, 4));
+  });
+  network.on("dragging", function (params) {
+      params.event = "[original event]";
+      // console.log('<h2>dragging event:</h2>' + JSON.stringify(params, null, 4));
+  });
+  network.on("dragEnd", function (params) {
+      params.event = "[original event]";
+      console.log('<h2>dragEnd event:</h2>' + JSON.stringify(params));
+  });
+  network.on("zoom", function (params) {
+      console.log('<h2>zoom event:</h2>' + JSON.stringify(params));
+  });
+  network.on("showPopup", function (params) {
+      console.log('<h2>showPopup event: </h2>' + JSON.stringify(params));
+  });
+  network.on("hidePopup", function () {
+      console.log('hidePopup Event');
+  });
+  network.on("select", function (params) {
+      console.log('select Event:', params);
+  });
+  network.on("selectNode", function (params) {
+      console.log('selectNode Event:', params);
+  });
+  network.on("selectEdge", function (params) {
+      console.log('selectEdge Event:', params);
+  });
+  network.on("deselectNode", function (params) {
+      console.log('deselectNode Event:', params);
+  });
+  network.on("deselectEdge", function (params) {
+      console.log('deselectEdge Event:', params);
+  });
+  network.on("hoverNode", function (params) {
+      console.log('hoverNode Event:', params);
+  });
+  network.on("hoverEdge", function (params) {
+      console.log('hoverEdge Event:', params);
+  });
+  network.on("blurNode", function (params) {
+      console.log('blurNode Event:', params);
+  });
+  network.on("blurEdge", function (params) {
+      console.log('blurEdge Event:', params);
+  });
 }
 
 function updateNetworkHeight() {
@@ -82,69 +154,6 @@ function updateNetworkHeight() {
     container.style.width = width + 'px';
     container.style.height = height + 'px';
     network.redraw();
-}
-
-function event() {
-  network.on("click", function (params) {
-        params.event = "[original event]";
-        alert('<h2>Click event:</h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("doubleClick", function (params) {
-        params.event = "[original event]";
-        alert('<h2>doubleClick event:</h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("oncontext", function (params) {
-        params.event = "[original event]";
-        alert('<h2>oncontext (right click) event:</h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("dragStart", function (params) {
-        params.event = "[original event]";
-        alert('<h2>dragStart event:</h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("dragging", function (params) {
-        params.event = "[original event]";
-        alert('<h2>dragging event:</h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("dragEnd", function (params) {
-        params.event = "[original event]";
-        alert('<h2>dragEnd event:</h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("zoom", function (params) {
-        alert('<h2>zoom event:</h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("showPopup", function (params) {
-        alert('<h2>showPopup event: </h2>' + JSON.stringify(params, null, 4));
-    });
-    network.on("hidePopup", function () {
-        console.log('hidePopup Event');
-    });
-    network.on("select", function (params) {
-        console.log('select Event:', params);
-    });
-    network.on("selectNode", function (params) {
-        console.log('selectNode Event:', params);
-    });
-    network.on("selectEdge", function (params) {
-        console.log('selectEdge Event:', params);
-    });
-    network.on("deselectNode", function (params) {
-        console.log('deselectNode Event:', params);
-    });
-    network.on("deselectEdge", function (params) {
-        console.log('deselectEdge Event:', params);
-    });
-    network.on("hoverNode", function (params) {
-        console.log('hoverNode Event:', params);
-    });
-    network.on("hoverEdge", function (params) {
-        console.log('hoverEdge Event:', params);
-    });
-    network.on("blurNode", function (params) {
-        console.log('blurNode Event:', params);
-    });
-    network.on("blurEdge", function (params) {
-        console.log('blurEdge Event:', params);
-    });
 }
 
 function reload() {

@@ -32,7 +32,7 @@
   </head>
  </ul>
 
-  <body onload="draw({{graph['graph']}});" onresize="updateNetworkHeight()">
+  <body onload="draw({{graph}});" onresize="updateNetworkHeight()">
     <div id="wrapper">
       <!-- Navigation -->
       <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -71,9 +71,9 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li class="active">
-              % for g in graph['graph']:
+              % for r in graph["relations"]:
                  <li>
-                   <a href="#" onclick="draw({{g['relation']}})"><i class="fa fa-fw fa-dashboard"></i> {{g['title']}}</a>
+                   <a href="#" onclick="draw({{r}})"><i class="fa fa-fw fa-dashboard"></i> {{r["title"]}}</a>
                  </li>
                 <br>
               % end

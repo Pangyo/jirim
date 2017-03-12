@@ -71,17 +71,17 @@ def hello():
     keyword = urldecode(url_encoded_keyword)
 
     graphJson = {
-        "graph":[
+        "relations":[
     {
         "key":"1",
         "title":"제안대군",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%EC%A0%9C%EC%95%88%EB%8C%80%EA%B5%B0&sm=top_lve&ie=utf8",
-        "relation" : [
+        "relations" : [
             {
                 "key":"1",
                 "title":"성종",
                 "link":"?where=nexearch&query=%EC%84%B1%EC%A2%85&ie=utf8&sm=tab_she&qdt=0",
-                "value":"제안대군"
+                "value":"제안대군",
             },
             {
                 "key":"1",
@@ -203,55 +203,55 @@ def hello():
         "key":"2",
         "title":"한국사능력검정시험 34회",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%ED%95%9C%EA%B5%AD%EC%82%AC%EB%8A%A5%EB%A0%A5%EA%B2%80%EC%A0%95%EC%8B%9C%ED%97%98+34%ED%9A%8C&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"3",
         "title":"트럼프",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%ED%8A%B8%EB%9F%BC%ED%94%84&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"4",
         "title":"2ne1",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=2ne1&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"5",
         "title":"헨리",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%ED%97%A8%EB%A6%AC&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"6",
         "title":"나혼자산다",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%EB%82%98%ED%98%BC%EC%9E%90%EC%82%B0%EB%8B%A4&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"7",
         "title":"팬텀싱어",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%ED%8C%AC%ED%85%80%EC%8B%B1%EC%96%B4&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"8",
         "title":"수지 화보",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%EC%88%98%EC%A7%80+%ED%99%94%EB%B3%B4&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"9",
         "title":"편의점을 털어라",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%ED%8E%B8%EC%9D%98%EC%A0%90%EC%9D%84+%ED%84%B8%EC%96%B4%EB%9D%BC&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     },
     {
         "key":"10",
         "title":"조우진",
         "link":"http://search.naver.com/search.naver?where=nexearch&query=%EC%A1%B0%EC%9A%B0%EC%A7%84&sm=top_lve&ie=utf8",
-        "relation": []
+        "relations": []
     }
 ]
 }
