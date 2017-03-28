@@ -30,22 +30,23 @@ class ShellMain(BaseClass):
         if resultRankList == None:
             return False
 
-        result = self._shellProcess.SendRankList(resultRankList)
-        if result == False:
-            return False          
+        #result = self._shellProcess.SendRankList(resultRankList)
+        #if result == False:
+        #    return False          
   
         resultRelation = self._shellProcess.GetRelation(resultRankList)
         if resultRelation == False:
             return False
 
-        result = self._shellProcess.SendRelationList(resultRelation)
-        if result == False:
-            return False
+        #result = self._shellProcess.SendRelationList(resultRelation)
+        #if result == False:
+        #    return False
         
         #result = self._shellProcess.CopyXML()
         #if result == False:
         #    return False
 
+		
         return True
         
 class CProcess(threading.Thread):
