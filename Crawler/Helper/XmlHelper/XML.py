@@ -16,7 +16,7 @@ def RelationListToXML(rList, rKey, rVal):
         if Global.GetXmlFilePath() == None:
             return False
 
-        fileName = Global.GetXmlFilePath()
+        fileName = Global.GetXmlFileName()
 
         tree = parse(fileName)
         if tree == None:
@@ -89,7 +89,7 @@ def RanklistToXML(rList):
         # save xml
         ElementTree(root).write(fileName, encoding="utf-8", xml_declaration=True)
         # save xml name
-        Global.SetXmlFilePath(fileName)
+        Global.SetXmlFileName(fileName)
         
     except ValueError as e:
        LOG.FATAL("Fail to RankList XML : " + e);
@@ -151,6 +151,6 @@ def indent(elem, level=0):
 def GetCurrentTime():
     now = time.localtime()
 
-    return "%04d_%02d_%02d_%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour)
-    #return "%04d_%02d_%02d_%02d_%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min)
+    #return "%04d_%02d_%02d_%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour)
+    return "%04d_%02d_%02d_%02d_%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min)
 

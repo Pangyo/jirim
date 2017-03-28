@@ -1,3 +1,4 @@
+import sys
 
 # Path
 HomePath    = None
@@ -13,6 +14,10 @@ XmlFileName = None
 RankListCount = None
 RelationCount = None
 RelationDepth = None
+
+# Option
+ServerIP    = None
+CycleTime   = None
 
 class Global(object):
     
@@ -115,3 +120,38 @@ class Global(object):
         global RelationDepth
         RelationDepth = strR
 
+    @staticmethod
+    def SetServerIP(strI):
+        global ServerIP
+        ServerIP = strI
+
+    @staticmethod
+    def GetServerIP():
+        global ServerIP
+        return ServerIP
+
+    @staticmethod
+    def SetCycleTime(strC):
+        global CycleTime
+        CycleTime = strC
+
+    @staticmethod
+    def GetCycleTime():
+        global CycleTime
+        return CycleTime
+
+    #################### Func #################### 
+    def progressbar(it, prefix = "", size = 60):
+        count = len(it)
+        def _show(_i):
+            x = int(size*_i/count)
+            sys.stdout.write("%s[%s%s] %i/%i\r" % (prefix, "#"*x, "."*(size-x), _i, count))
+            sys.stdout.flush()
+        
+        _show(0)
+    
+        for i, item in enumerate(it):
+            yield item
+            _show(i+1)
+        sys.stdout.write("\n")
+        sys.stdout.flush()

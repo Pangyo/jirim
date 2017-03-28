@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from Common.Language import Resources
 from Common.CommonClass.BaseClass import BaseClass
 
-from Product.RankListManager.Model.rankListModel import RankListModel
+from Product.RankListManager.Model.rankModel import RankModel
 
 class RankListService(BaseClass):
 
@@ -13,7 +13,7 @@ class RankListService(BaseClass):
         self.ListRanks = []
 
     def MakeRankModel(self, index, title, link):
-        rankModel = RankListModel()
+        rankModel = RankModel()
         
         rankModel.setIndex(index)
         rankModel.setTitle(title)        
@@ -43,28 +43,31 @@ class RankListService(BaseClass):
         person_time = dd.find('span' , {'class' : 'date'})
         return person_time.string
     
-    def GetRealTimeRankList(self, item_url):
+    def GetRankList(self, item_url):
         index = 1
         
         soup = self.GetTextHTMLPARSER(item_url)
         
-        for li in soup.find('div', {'class':'rankup'}).findAll('li'):
-            
-            rankModel = RankListModel()
+        #for li in soup.find('div', {'class':'rankup'}).findAll('li'):
+        for li in soup.find('div', {'class':'ah_list PM_CL_realtimeKeyword_list_base'}).findAll('li'):
+            rankModel = RankModel()
         
             li_Text = li.find('a')
+            li_TextSpan = li.find('span', {'class':'ah_k'})
             
             rankLink = li_Text['href'] 
-            liTitle = li_Text["title"]
-            rankTitle = str(liTitle)
+            
+            #liTitle = li_Text["title"]
+            #rankTitle = str(liTitle)
+            
+            # Naver change tag
+            rankTitle = li_TextSpan.string.strip()
             
             rankModel.setIndex(index)
             rankModel.setTitle(rankTitle)            
             rankModel.setLink(rankLink)
-            
+
             self.ListRanks.append(rankModel)
-            
             index = index + 1
             
         return self.ListRanks
-        

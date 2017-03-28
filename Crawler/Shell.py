@@ -1,118 +1,123 @@
-import shutil
 
-from Helper.LogHelper import LOG
-from Helper.XmlHelper import XML
-from Helper.InIHelper import INI
+import sys
+import time
+import click
+import threading
 
 from Common.Global import Global
 from Common.CommonClass.BaseClass import BaseClass
 
-from Product.RankListManager.Service.rankListService import RankListService
-from Product.RelationListManager.Service.relationService import RelationService
+from ShellInitialize import ShellInitialize
+from ShellProcess import ShellProcess
 
 class ShellMain(BaseClass):
     
     def __init__(self):
-        
-        self._rankListService = None
-        self._relationListService = None
-        
-        # after json , now not use
-        self._jsRankObject = None    
-        self._jsRelationObject = None
-        
-    def Pre_Initialize(self):
+        self._shellInitialize = ShellInitialize()  
+        self._shellProcess = ShellProcess()      
 
-        if INI.Initialize() == False:
-            return False
         
-        if INI.ReadINI() == False:  
+    def Initialize(self):
+        result = self._shellInitialize.Pre_Initialize()
+        if result == False:
             return False
 
-        if INI.WriteINI() == False:
+        return True
+
+    def Processing(self):
+
+        resultRankList = self._shellProcess.GetRankList("http://www.naver.com")
+        if resultRankList == None:
             return False
 
-        if LOG.Initialize() == False:
+        result = self._shellProcess.SendRankList(resultRankList)
+        if result == False:
+            return False          
+  
+        resultRelation = self._shellProcess.GetRelation(resultRankList)
+        if resultRelation == False:
             return False
 
-        LOG.DEBUG("Pre-initialize.")
-
-
-    def Post_Initialize(self):
-        LOG.DEBUG("Post-initialize.")
-       
-        self._rankListService = RankListService()
-        self._relationListService = RelationService() 
-
-
-    def Startup(self):
-        self.Pre_Initialize()
-
-        self.Post_Initialize()
-
-    def GetRelationList(self, rList):
-        LOG.DEBUG("Initilize - Relation")
-
-        for node in rList:
-            tempList = self._relationListService.GetRelationList(node.link)
-            LOG.DEBUG("Get List Data - Relation")
-
-            # Rank List delete from INI RelationListCount
-            listCount = Global.GetRelationCount()
-            while(True):
-                if(len(tempList) <= int(listCount)):
-                    break;
-                else:
-                    tempList.pop()
-
-            if XML.RelationListToXML(tempList, node.index, node.title) == True:
-                LOG.DEBUG("Save Xml - Relation")
-            else:
-                LOG.FATAL("Fail Xml - Relation")
-                return False
+        result = self._shellProcess.SendRelationList(resultRelation)
+        if result == False:
+            return False
+        
+        #result = self._shellProcess.CopyXML()
+        #if result == False:
+        #    return False
 
         return True
         
-    def GetRankList(self, url):
-        LOG.DEBUG("Initilize - Rank")
+class CProcess(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self.__pause = False
+        self.__end = False
         
-        tempList = self._rankListService.GetRealTimeRankList(url)
-        LOG.DEBUG("Get List Data - Rank")
-        
-        # Rank List delete from INI RankListCount
-        listCount = Global.GetRankListCount()
-        
-        while(True):
-            if(len(tempList) <= int(listCount)):
-                break;
-            else:
-               tempList.pop()
-       
-        if XML.RanklistToXML(tempList) == True:
-            LOG.DEBUG("Save Xml - Rank")
-            return tempList
-        else:
-            LOG.FATAL("Fail Xml - Rank")
-            return None
+    def SetShellMain(self, shellMain):
+        self.shellMain = shellMain
+            
+    def pStop(self):
+        self.__pause = True
+         
+    def pContinue(self):
+        self.__pause = False
+         
+    def pEnd(self):
+        self.__end = True
 
+    def run(self):
+        while True:
+
+            # Pause            
+            while self.__pause:
+                time.sleep(1)
+                 
+            # Processing
+            self.shellMain.Processing()
+            self.LoadingPrint(Global.GetCycleTime())            
+
+            # End
+            if self.__end:
+                break
+
+    def LoadingPrint(self, min):
+        for i in Global.progressbar(range(int(min) * 60), "Processing: ", 40):
+            time.sleep(1)
 
 if __name__ == '__main__':
 
+    lock = threading.Lock()
+    
+    strInput = None
+    strCheck = True
+
     sm = ShellMain()
-    sm.Startup()
+    if sm.Initialize() == False:
+        sys.exit()
 
-    result = None
-    tempList = sm.GetRankList("http://www.naver.com")
-    
-    if tempList != None:
-        reuslt = sm.GetRelationList(tempList)
+    crawlerP = CProcess()
+    crawlerP.SetShellMain(sm)
 
-    try:
-        if reuslt == True:
-            shutil.copyfile(Global.GetXmlFilePath(), Global.GetXmlFileName())
+    crawlerP.start() 
+ 
+    while(True):
+        
+        if strInput == "start" and strCheck == False:
+            strCheck = True
 
-    except IOError as e:
-        LOG.FATAL("Crawler File Copy Fail" + e)
-    else:
-        LOG.DEBUG("Crawler File Copy Success")
-    
+            crawlerP.pContinue() 
+            with lock:
+                time.sleep(1)   
+                
+        elif strInput == "stop" and strCheck == True:
+            strCheck = False
+
+            crawlerP.pStop()
+            with lock:
+                time.sleep(1)
+        elif strInput == "exit":
+            crawlerP.pEnd()
+            sys.exit()
+        else:
+            strInput = input()
